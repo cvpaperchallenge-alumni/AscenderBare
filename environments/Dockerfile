@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=ubuntu:22.04
 FROM ${BASE_IMAGE}
 
-ARG PROJECT_NAME=ascender
+ARG PROJECT_NAME=ascender-bare
 ARG USER_NAME=challenger
 ARG GROUP_NAME=challengers
 ARG UID=1000
@@ -39,8 +39,7 @@ COPY --chown=${USER_NAME}:${GROUP_NAME} .mise.* ./
 RUN ${HOME}/.local/bin/mise trust -y . \
     && ${HOME}/.local/bin/mise install -y
 
-# If ${RUN_POETRY_INSTALL_AT_BUILD_TIME} = "true", install Python package by Poetry and move .venv under ${HOME}.
+# If ${RUN_UV_SYNC_AT_BUILD_TIME} = "true", install Python package by uv and move .venv under ${HOME}.
 # This process is for CI (GitHub Actions). To prevent overwrite by volume of docker compose, .venv is moved under ${HOME}.
-# COPY --chown=${UID}:${GID} pyproject.toml poetry.lock poetry.toml ./
-# RUN test ${RUN_POETRY_INSTALL_AT_BUILD_TIME} = "true" && poetry install || echo "skip to run poetry install."
-# RUN test ${RUN_POETRY_INSTALL_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.venv ${HOME}/.venv || echo "skip to move .venv."
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && uv sync || echo "skip to run uv sync."
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.venv ${HOME}/.venv || echo "skip to move .venv."
