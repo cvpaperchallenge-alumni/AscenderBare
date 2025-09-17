@@ -1,54 +1,63 @@
-#!/bin/sh
+#!/bin/bash
 #PBS -q rt_HG
 #PBS -l select=1
 #PBS -l walltime=1:23:45
+#PBS -o /dev/null
+#PBS -e /dev/null
 #PBS -P gag51492
 
-# デフォルトで定義されている環境変数を表示する
-vars=(PBS_ENVIRONMENT PBS_JOBID PBS_JOBNAME PBS_NODEFILE PBS_LOCALDIR PBS_O_WORKDIR PBS_ARRAY_INDEX)
-for var in "${vars[@]}"; do
-  printf "%-15s = %s\n" "$var" "${!var}"
-done
+# Fail fast on common errors
+set -euo pipefail
 
-# ログの出力先を設定する
-export OUTPUTS_DIRPATH="${PBS_O_WORKDIR}/outputs/${PBS_JOBID}"
+# Move to the job submission working directory
+cd "${PBS_O_WORKDIR}" || exit 1
+
+# Configure log destination (we suppress PBS .o/.e and use our own log)
+export OUTPUTS_DIRPATH="${PWD}/outputs/${PBS_JOBNAME}.${PBS_JOBID}"
+mkdir -p "$OUTPUTS_DIRPATH"
 export LOG_FILE_PATH="${OUTPUTS_DIRPATH}/abci.log"
 exec >"$LOG_FILE_PATH" 2>&1
 
-# ジョブ投入時の作業ディレクトリへのパスに移動する
-cd ${PBS_O_WORKDIR}
-
-# モジュールの初期設定をする
+# Initialize environment modules (ABCI)
 # https://docs.abci.ai/v3/ja/environment-modules/
+# shellcheck disable=SC1091
 source /etc/profile.d/modules.sh
 
-# 使用するモジュールをロードする
+# Load required modules
+# Please add modules if needed like below
 module load cuda/12.6/12.6.1
 
-# mise がインストールされているか確認する
+# Ensure 'mise' is available
 if ! command -v mise >/dev/null 2>&1; then
-  echo "Error: mise is not installed. Aborting job."
-  exit 1
+	echo "Error: mise is not installed. Aborting job."
+	exit 1
 fi
 
-# .mise.toml が存在するか確認する
+# Ensure mise project configuration exists
 if [ ! -f "${PWD}/.mise.toml" ]; then
-  echo "Error: .mise.toml not found in ${PWD}. Aborting job."
-  exit 1
+	echo "Error: .mise.toml not found in ${PWD}. Aborting job."
+	exit 1
 fi
 
-# プロジェクト直下の .mise/ にツール本体を入れる
+# # Trust this directory's configuration
+mise trust "${PWD}/.mise.toml"
+# Keep tool installs local to the project for reproducibility
 export MISE_DATA_DIR="${PWD}/.mise"
-eval "$(mise activate sh)"
-# .mise.toml (or .tool-versions) を見てインストール
+# Activate directory-aware shims for bash
+eval "$(mise activate bash)"
+# Install tools defined in .mise.toml
 mise install -y
+# Show tools currently active for this directory
+echo "=== Installed tools (mise) ==="
+mise ls --current
 
-echo python --version
-echo uv --version
+# Create/use a project-local Python virtual environment with uv
+export UV_PROJECT_ENV="${PWD}/.venv"
+mise exec -- uv sync
 
-# uvでPythonの依存をインストールする
-# uv sync
+# List installed Python packages inside the venv
+echo "=== Installed Python packages (.venv) ==="
+mise exec -- uv tree -d 1
 
-# 環境変数CMDとして渡された文字列をコマンドとして実行する
-# プロンプトインジェクションには注意
-# eval "$CMD"
+# Run the task using the venv (ensure the correct Python is used)
+mise exec -- uv run python src/sample.py

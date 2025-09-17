@@ -3,6 +3,7 @@ models/*
 outputs/*
 __pycache__
 .coverage
+.mise
 .mypy_cache
 .pytest_cache
 .venv
