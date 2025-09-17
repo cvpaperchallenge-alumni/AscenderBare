@@ -52,7 +52,6 @@ echo "=== Installed tools (mise) ==="
 mise ls --current
 
 # Create/use a project-local Python virtual environment with uv
-export UV_PROJECT_ENV="${PWD}/.venv"
 mise exec -- uv sync
 
 # List installed Python packages inside the venv
