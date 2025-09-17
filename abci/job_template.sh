@@ -39,12 +39,12 @@ if [ ! -f "${PWD}/.mise.toml" ]; then
 	exit 1
 fi
 
-# # Trust this directory's configuration
-mise trust "${PWD}/.mise.toml"
-# Keep tool installs local to the project for reproducibility
-export MISE_DATA_DIR="${PWD}/.mise"
 # Activate directory-aware shims for bash
 eval "$(mise activate bash)"
+# Keep tool installs local to the project for reproducibility
+export MISE_DATA_DIR="${PWD}/.mise"
+# Trust this directory's configuration
+mise trust "${PWD}/.mise.toml"
 # Install tools defined in .mise.toml
 mise install -y
 # Show tools currently active for this directory
