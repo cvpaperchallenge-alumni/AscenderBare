@@ -1,6 +1,5 @@
 [tools]
 python = "3.13"
 uv = "latest"
-
-[env]
-UV_PROJECT_ENV = ".venv"
+shfmt = "latest"
+shellcheck = "latest"
