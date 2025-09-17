@@ -3,7 +3,7 @@ services:
     image: ci
     build:
       args:
-        - BASE_IMAGE=ubuntu:20.04
+        - BASE_IMAGE=ubuntu:22.04
         - PYTHON_VERSION=3.12
         - RUN_UV_SYNC_AT_BUILD_TIME=true
         - PROJECT_NAME=${PROJECT_NAME_ENV}
