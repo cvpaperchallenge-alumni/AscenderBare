@@ -33,9 +33,12 @@ RUN curl https://mise.run | sh
 ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PATH} \
     MISE_DATA_DIR=${APPLICATION_DIRECTORY}/.mise
 
-# Copy .mise.toml and .mise.lock
-COPY --chown=${USER_NAME}:${GROUP_NAME} .mise.* ./
+# Copy configuration files for mise
+COPY --chown=${UID}:${GID} .mise.* ./
 RUN mise trust ${APPLICATION_DIRECTORY}/.mise.toml
+
+# Copy configuration files for uv
+COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./
 
 # If the .mise or .venv directories generated during the build are placed under the APPLICATION_DIRECTORY,
 # they will be overwritten at runtime by the mounted volume. To avoid this, we temporarily move them under 
