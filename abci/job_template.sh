@@ -2,6 +2,9 @@
 #PBS -q rt_HG
 #PBS -l select=1
 #PBS -l walltime=12:00:00
+#PBS -o /dev/null
+#PBS -e /dev/null
+#PBS -P <UPDATE_HERE_BY_YOUR_GROUP>
 
 # Fail fast on common errors
 set -euo pipefail
