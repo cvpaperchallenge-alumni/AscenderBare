@@ -20,7 +20,6 @@ exec >"$LOG_FILE_PATH" 2>&1
 
 # Initialize environment modules (ABCI)
 # https://docs.abci.ai/v3/ja/environment-modules/
-# shellcheck disable=SC1091
 source /etc/profile.d/modules.sh
 
 # Load required modules
