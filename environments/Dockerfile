@@ -6,7 +6,8 @@ ARG USER_NAME=challenger
 ARG GROUP_NAME=challengers
 ARG UID=1000
 ARG GID=1000
-ARG APPLICATION_DIRECTORY=/home/${USER_NAME}/${PROJECT_NAME}
+ARG USER_DIRECTORY=/home/${USER_NAME}
+ARG APPLICATION_DIRECTORY=${USER_DIRECTORY}/${PROJECT_NAME}
 ARG RUN_UV_SYNC_AT_BUILD_TIME="false"
 
 ENV DEBIAN_FRONTEND="noninteractive" \
@@ -28,18 +29,22 @@ USER ${USER_NAME}
 WORKDIR ${APPLICATION_DIRECTORY}
 
 # Install MISE.
-ENV HOME="/home/${USER_NAME}" \
-    PATH=/home/${USER_NAME}/.local/share/mise/shims:/home/${USER_NAME}/.local/bin:${PATH}
-RUN curl https://mise.run | sh \
-    && ${HOME}/.local/bin/mise --version
-RUN echo 'eval "$(${HOME}/.local/bin/mise activate bash)"' >> "${HOME}/.bashrc"
+RUN curl https://mise.run | sh
+ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PATH} \
+    MISE_DATA_DIR=${APPLICATION_DIRECTORY}/.mise
 
-# Copy .mise.toml and .mise.lock
-COPY --chown=${USER_NAME}:${GROUP_NAME} .mise.* ./
-RUN ${HOME}/.local/bin/mise trust -y . \
-    && ${HOME}/.local/bin/mise install -y
+# Copy configuration files for mise
+COPY --chown=${UID}:${GID} .mise.* ./
+RUN mise trust ${APPLICATION_DIRECTORY}/.mise.toml
 
-# If ${RUN_UV_SYNC_AT_BUILD_TIME} = "true", install Python package by uv and move .venv under ${HOME}.
-# This process is for CI (GitHub Actions). To prevent overwrite by volume of docker compose, .venv is moved under ${HOME}.
-RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && uv sync || echo "skip to run uv sync."
+# Copy configuration files for uv
+COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./
+
+# If the .mise or .venv directories generated during the build are placed under the APPLICATION_DIRECTORY,
+# they will be overwritten at runtime by the mounted volume. To avoid this, we temporarily move them under 
+# the HOME during the build, and then move them back to APPLICATION_DIRECTORY after starting the container. 
+# This way, .mise and .venv can still be used in CI jobs and similar environments.
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mise install -y || echo "skip to run mise install."
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mise exec -- uv sync || echo "skip to run uv sync."
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.mise ${HOME}/.mise || echo "skip to move .mise."
 RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.venv ${HOME}/.venv || echo "skip to move .venv."

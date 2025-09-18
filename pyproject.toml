@@ -92,6 +92,7 @@ dev = [
     "mdformat-frontmatter>=2.0.8",
     "mdformat-gfm>=0.4.1",
     "mypy>=1.17.1",
+    "poethepoet>=0.37.0",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.11",
 ]

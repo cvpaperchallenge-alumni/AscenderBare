@@ -3,7 +3,6 @@
 ![python versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)
 [![MIT License](https://img.shields.io/github/license/cvpaperchallenge/Ascender?color=green)](LICENSE)
 
-
 ## What is Ascender?
 
 > [!NOTE]
@@ -55,7 +54,7 @@ Please also view [resources about Ascender (in Japanese)](https://cvpaperchallen
 - [Docker Compose](https://github.com/docker/compose)
 - (Optional) [NVIDIA Container Toolkit (nvidia-docker2)](https://github.com/NVIDIA/nvidia-docker)
 
-> \[!Note\]
+> [!Note]
 > The example codes in the README.md are written for `Docker Compose v2`. However, Ascender is also compatible with `Docker Compose v1`. If you are using `Docker Compose v1`, simply replace `docker compose` with `docker-compose` in the example commands.
 
 ## Prerequisites Installation
@@ -137,7 +136,7 @@ Depending on the services, frameworks, and libraries used during development, it
   #   - ../envs.env # <- uncomment here
   ```
 
-> \[!Note\]
+> [!Note]
 > The `envs.env` file may contain sensitive information such as API keys and passwords and should not be version-controlled by Git. In Ascender, files named `*.env` are excluded from Git tracking by default, as they are listed in the `.gitignore` file.
 
 ### Start Development
@@ -188,7 +187,7 @@ $ cd <YOUR_REPO_NAME>
 $ poetry install
 ```
 
-> \[!Note\]
+> [!Note]
 > The CI jobs in Ascender's GitHub Actions workflows utilize a Dockerfile. Running without Docker may cause these jobs to fail, necessitating modifications to the Dockerfile or the deletion of the CI job (`.github/workflows/lint-and-test.yaml`).
 
 ### Permission Errors When Running `poetry install`
@@ -213,7 +212,7 @@ In Ascender, the default UID and GID are both '1000'. If your local PC's UID or 
 
 ### Compatibility Issues Between PyTorch and Poetry
 
-> \[!Note\]
+> [!Note]
 > Now poetry 1.2 is used in Ascender. So this issue is expected to be solved.
 
 As of now, there is a known compatibility issue between PyTorch and Poetry, which the Poetry community is actively addressing. This issue is anticipated to be resolved in Poetry version 1.2.0. You can track progress and explore pre-releases of this version [here](https://github.com/python-poetry/poetry/releases/tag/1.2.0b3).

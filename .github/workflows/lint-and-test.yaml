@@ -85,6 +85,12 @@ jobs:
       - name: Change permission
         run: chmod 777 .
 
+      # In the built stage of Docker image, .mise dir is moved from working directory to prevent
+      # overwrite by volume operation of Docker. Here, .mise is moved back to working directory.
+      - name: Move .mise directory
+        run: docker compose exec -T core mv ../.mise .
+        working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}
+
       # In the built stage of Docker image, .venv dir is moved from working directory to prevent
       # overwrite by volume operation of Docker. Here, .venv is moved back to working directory.
       - name: Move .venv directory
@@ -92,9 +98,9 @@ jobs:
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}
 
       - name: Run lint
-        run: docker compose exec -T core poe lint
+        run: docker compose exec -T core uv run poe lint
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}
 
       - name: Run test code
-        run: docker compose exec -T core poe test
+        run: docker compose exec -T core uv run poe test
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}

@@ -1,10 +1,7 @@
 #!/bin/bash
 #PBS -q rt_HG
 #PBS -l select=1
-#PBS -l walltime=1:23:45
-#PBS -o /dev/null
-#PBS -e /dev/null
-#PBS -P gag51492
+#PBS -l walltime=12:00:00
 
 # Fail fast on common errors
 set -euo pipefail
@@ -39,12 +36,12 @@ if [ ! -f "${PWD}/.mise.toml" ]; then
 	exit 1
 fi
 
-# # Trust this directory's configuration
-mise trust "${PWD}/.mise.toml"
-# Keep tool installs local to the project for reproducibility
-export MISE_DATA_DIR="${PWD}/.mise"
 # Activate directory-aware shims for bash
 eval "$(mise activate bash)"
+# Keep tool installs local to the project for reproducibility
+export MISE_DATA_DIR="${PWD}/.mise"
+# Trust this directory's configuration
+mise trust "${PWD}/.mise.toml"
 # Install tools defined in .mise.toml
 mise install -y
 # Show tools currently active for this directory
@@ -52,7 +49,6 @@ echo "=== Installed tools (mise) ==="
 mise ls --current
 
 # Create/use a project-local Python virtual environment with uv
-export UV_PROJECT_ENV="${PWD}/.venv"
 mise exec -- uv sync
 
 # List installed Python packages inside the venv
