@@ -6,6 +6,7 @@ __pycache__
 .mise
 .mypy_cache
 .pytest_cache
+.sge_request
 .venv
 *.env
 !data/README.md

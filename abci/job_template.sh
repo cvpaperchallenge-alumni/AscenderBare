@@ -1,10 +1,7 @@
 #!/bin/bash
 #PBS -q rt_HG
 #PBS -l select=1
-#PBS -l walltime=1:23:45
-#PBS -o /dev/null
-#PBS -e /dev/null
-#PBS -P gag51492
+#PBS -l walltime=12:00:00
 
 # Fail fast on common errors
 set -euo pipefail
