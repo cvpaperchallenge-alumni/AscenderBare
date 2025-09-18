@@ -2,6 +2,9 @@
 #PBS -q rt_HG
 #PBS -l select=1
 #PBS -l walltime=12:00:00
+#PBS -o /dev/null
+#PBS -e /dev/null
+#PBS -P <UPDATE_HERE_BY_YOUR_GROUP>
 
 # Fail fast on common errors
 set -euo pipefail
@@ -17,7 +20,6 @@ exec >"$LOG_FILE_PATH" 2>&1
 
 # Initialize environment modules (ABCI)
 # https://docs.abci.ai/v3/ja/environment-modules/
-# shellcheck disable=SC1091
 source /etc/profile.d/modules.sh
 
 # Load required modules
