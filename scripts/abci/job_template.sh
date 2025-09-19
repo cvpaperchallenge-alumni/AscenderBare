@@ -26,6 +26,22 @@ source /etc/profile.d/modules.sh
 # Please add modules if needed like below
 module load cuda/12.6/12.6.1
 
+#　Ensure　'direnv' is available
+if ! command -v direnv >/dev/null 2>&1; then
+    echo "Error: direnv is not installed. Aborting job."
+    exit 1
+fi
+
+# Ensure .envrc exists
+if [ ! -f "${PWD}/.envrc" ]; then
+	echo "Error: .envrc not found in ${PWD}. Aborting job."
+	exit 1
+fi
+
+# Allow loading environment variables from .envrc
+# Update only the values of MISE_DATA_DIR and PATH for mise.
+direnv allow "${PWD}/.envrc"
+
 # Ensure 'mise' is available
 if ! command -v mise >/dev/null 2>&1; then
 	echo "Error: mise is not installed. Aborting job."
@@ -38,10 +54,6 @@ if [ ! -f "${PWD}/.mise.toml" ]; then
 	exit 1
 fi
 
-# Activate directory-aware shims for bash
-eval "$(mise activate bash)"
-# Keep tool installs local to the project for reproducibility
-export MISE_DATA_DIR="${PWD}/.mise"
 # Trust this directory's configuration
 mise trust "${PWD}/.mise.toml"
 # Install tools defined in .mise.toml
