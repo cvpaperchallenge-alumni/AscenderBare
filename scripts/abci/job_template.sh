@@ -23,8 +23,9 @@ exec >"$LOG_FILE_PATH" 2>&1
 source /etc/profile.d/modules.sh
 
 # Load required modules
-# Please add modules if needed like below
+# >>> EDIT HERE >>> #
 module load cuda/12.6/12.6.1
+# <<< #
 
 #　Ensure　'direnv' is available
 if ! command -v direnv >/dev/null 2>&1; then
@@ -71,4 +72,6 @@ echo "=== Installed Python packages (.venv) ==="
 mise exec -- uv tree -d 1
 
 # Run the task using the venv (ensure the correct Python is used)
+# >>> EDIT HERE >>> #
 mise exec -- uv run python src/sample.py
+# <<< #
