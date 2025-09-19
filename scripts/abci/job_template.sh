@@ -41,6 +41,7 @@ fi
 # Allow loading environment variables from .envrc
 # Update only the values of MISE_DATA_DIR and PATH for mise.
 direnv allow "${PWD}/.envrc"
+eval "$(direnv export bash)"
 
 # Ensure 'mise' is available
 if ! command -v mise >/dev/null 2>&1; then
