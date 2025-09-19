@@ -10,9 +10,6 @@
 
 ## What is Ascender Bare?
 
-> [!NOTE]
-> Ascender Bare is still under early developing phase. Please wait first alpha release.
-
 Ascender Bare is a [GitHub repository template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) designed for environments where Docker cannot be used (for example, [ABCI](https://abci.ai/en)). It aims to ensure reproducibility of Python-based research experiments as much as possible while maintaining efficiency. It is developed based on [Ascender](https://github.com/cvpaperchallenge/Ascender), an existing Docker-based project template. It incorporates several pre-implemented features to expedite development:
 
 - **Virtual Environment / Toolchain Management**: The management of the Python runtime and core development tools is handled by [mise](https://mise.jdx.dev).
