@@ -57,8 +57,6 @@ The project is organized as follows, with each directory and file intended to se
 
 - [mise](https://mise.jdx.dev)
 - [direnv](https://direnv.net)
-- (Optional) [Docker](https://www.docker.com)
-- (Optional) [NVIDIA Container Toolkit (nvidia-docker2)](https://github.com/NVIDIA/nvidia-docker)
 
 ## Prerequisites Installation
 
@@ -108,9 +106,9 @@ eval "$(direnv export bash)"
 
 ## Quick Start
 
-This section outlines how to begin using Ascender. For more detailed information, please refer to [this slide (in Japanese)](https://cvpaperchallenge.github.io/Britannica/ascender/ja).
+This section outlines how to begin using Ascender Bare.
 
-### Create a GitHub Repository from Ascender
+### Create a GitHub Repository from Ascender Bare.
 
 To start, you need to create your own GitHub repository from Ascender Bare:
 
@@ -145,9 +143,9 @@ Your new repository should now be set up in your GitHub account.
 You are now ready to start developing with Ascender Bare.
 
 > [!NOTE]
-> The important point here is that, except for mise itself, all dependencies—including the Python runtime—are consolidated under .mise and .venv in the project root. This enables us to efficiently build a highly reproducible environment without using Docker.
+> The important point here is that, except for mise itself, all dependencies—including the Python runtime—are consolidated under `.mise` and `.venv` in the project root. This enables us to efficiently build a highly reproducible environment without using Docker.
 
-### Rebuild the environment
+### Rebuild the Environment
 
 If the environment becomes corrupted, you can delete `.mise` and `.venv`, then reinstall to reconstruct the same environment like following.
 
@@ -159,3 +157,11 @@ If the environment becomes corrupted, you can delete `.mise` and `.venv`, then r
 % mise install -y 
 % uv sync
 ```
+
+## Use Cases
+
+### ABCI
+
+[ABCI (AI Bridging Cloud Infrastructure)](https://abci.ai/en) is the world's first large-scale Open AI Computing Infrastructure, constructed by National Institute of Advanced Industrial Science and Technology (AIST).
+
+ABCI does not support Docker. It is possible to use [Singularity](https://sylabs.io/docs/) instead, but there is a learning cost for Singularity. By using Ascender Bare, you can easily build a reproducible experimental environment. [Here you can find the documentation and job script templates for use with ABCI](./scripts/abci/abci.md).
