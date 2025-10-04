@@ -35,7 +35,7 @@ ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PAT
     MISE_DATA_DIR=${APPLICATION_DIRECTORY}/.mise
 
 # Copy configuration files for mise
-COPY --chown=${UID}:${GID} .mise.* ./
+COPY --chown=${UID}:${GID} mise.* ./
 RUN mise trust ${APPLICATION_DIRECTORY}/mise.toml
 
 # Copy configuration files for uv
@@ -46,6 +46,6 @@ COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./
 # the HOME during the build, and then move them back to APPLICATION_DIRECTORY after starting the container. 
 # This way, .mise and .venv can still be used in CI jobs and similar environments.
 RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mise install -y || echo "skip to run mise install."
-RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && uv sync || echo "skip to run uv sync."
+RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mise exec -- uv sync || echo "skip to run uv sync."
 RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.mise ${HOME}/.mise || echo "skip to move .mise."
 RUN test ${RUN_UV_SYNC_AT_BUILD_TIME} = "true" && mv ${APPLICATION_DIRECTORY}/.venv ${HOME}/.venv || echo "skip to move .venv."
