@@ -12,12 +12,11 @@
 
 Ascender Bare is a [GitHub repository template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) designed for environments where Docker cannot be used (for example, [ABCI](https://abci.ai/en)). It aims to ensure reproducibility of Python-based research experiments as much as possible while maintaining efficiency. It is developed based on [Ascender](https://github.com/cvpaperchallenge/Ascender), an existing Docker-based project template. It incorporates several pre-implemented features to expedite development:
 
-- **Virtual Environment / Toolchain Management**: The management of the Python runtime and core development tools is handled by [mise](https://mise.jdx.dev).
+- **Virtual Environment / Toolchain Management / Task Runner**: The management of the Python runtime and core development tools is handled by [mise](https://mise.jdx.dev).
 - **Virtual Environment / Python Package Management**: Development environment reproducibility ensured by [uv](https://docs.astral.sh/uv).
 - **Coding Style**: Automatic code linting and formatting with [Ruff](https://docs.astral.sh/ruff/).
 - **Static Type Checking**: Early bug detection assisted by [Mypy](https://github.com/python/mypy).
 - **Testing**: Testing simplification achieved through [pytest](https://github.com/pytest-dev/pytest).
-- **Task Runner**: Simple task automation with [Poe the Poet](https://github.com/nat-n/poethepoet).
 - **GitHub Integration**: Integration features including [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions), issue templates, and more.
 
 ## Project Organization
