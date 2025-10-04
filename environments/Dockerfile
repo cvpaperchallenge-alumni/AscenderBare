@@ -35,7 +35,7 @@ ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PAT
 
 # Copy configuration files for mise
 COPY --chown=${UID}:${GID} .mise.* ./
-RUN mise trust ${APPLICATION_DIRECTORY}/.mise.toml
+RUN mise trust ${APPLICATION_DIRECTORY}/mise.toml
 
 # Copy configuration files for uv
 COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./
