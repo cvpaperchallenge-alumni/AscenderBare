@@ -45,7 +45,8 @@ The project is organized as follows, with each directory and file intended to se
     ├── .dockerignore          <- Ignore rules for Docker builds.
     ├── .envrc                 <- Environmental variable loaded by direnv.
     ├── .gitignore             <- Ignore rules for Git version control.
-    ├── mise.toml             <- Project tool/runtime configuration for mise.
+    ├── mise.lock              <- Pins exact versions and checksums of tools for mise.   
+    ├── mise.toml              <- Project tool/runtime configuration for mise.
     ├── LICENSE                <- Project license.
     ├── pyproject.toml         <- Python project metadata and dependency configuration.
     ├── README.md              <- Top-level project documentation for developers.

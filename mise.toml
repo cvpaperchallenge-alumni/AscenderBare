@@ -1,9 +1,13 @@
 [tools]
-python = "3.13.7"
-uv = "0.8.17"
+python = "3.13"
+uv = "0.8"
 
 [env]
 UV_PROJECT_ENV = ".venv"
+
+[settings]
+experimental=true
+lockfile = true
 
 [tasks.ruff-format]
 run = "uv run ruff format src tests"
