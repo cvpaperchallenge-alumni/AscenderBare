@@ -1,6 +1,0 @@
-[tools]
-python = "3.13.7"
-uv = "0.8.17"
-
-[env]
-UV_PROJECT_ENV = ".venv"

@@ -98,9 +98,9 @@ jobs:
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}
 
       - name: Run lint
-        run: docker compose exec -T core uv run poe lint
+        run: docker compose exec -T core mise lint
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}
 
       - name: Run test code
-        run: docker compose exec -T core uv run poe test
+        run: docker compose exec -T core mise test
         working-directory: ${{ env.DOCKER_COMPOSE_DIRECTORY }}

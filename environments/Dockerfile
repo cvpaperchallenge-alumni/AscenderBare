@@ -30,12 +30,13 @@ WORKDIR ${APPLICATION_DIRECTORY}
 
 # Install MISE.
 RUN curl https://mise.run | sh
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PATH} \
     MISE_DATA_DIR=${APPLICATION_DIRECTORY}/.mise
 
 # Copy configuration files for mise
-COPY --chown=${UID}:${GID} .mise.* ./
-RUN mise trust ${APPLICATION_DIRECTORY}/.mise.toml
+COPY --chown=${UID}:${GID} mise.* ./
+RUN mise trust ${APPLICATION_DIRECTORY}/mise.toml
 
 # Copy configuration files for uv
 COPY --chown=${UID}:${GID} pyproject.toml uv.lock ./

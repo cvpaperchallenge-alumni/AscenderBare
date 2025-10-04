@@ -1,0 +1,46 @@
+[tools]
+python = "3.13.7"
+uv = "0.8.17"
+
+[env]
+UV_PROJECT_ENV = ".venv"
+
+[tasks.ruff-format]
+run = "uv run ruff format src tests"
+hide = true
+
+[tasks.ruff-format-check]
+run = "uv run ruff format --check src tests"
+hide = true
+
+[tasks.ruff-lint]
+run = "uv run ruff check src tests --fix"
+hide = true
+
+[tasks.ruff-lint-check]
+run = "uv run ruff check src tests"
+hide = true
+
+[tasks.mdformat]
+run = "uv run mdformat *.md"
+hide = true
+
+[tasks.mdformat-check]
+run = "uv run mdformat --check *.md"
+hide = true
+
+[tasks.mypy]
+run = "uv run mypy src"
+hide = true
+
+[tasks.test]
+run = "uv run pytest tests --cov=src --cov-report term-missing --durations 5"
+description = "Run pytest with coverage reporting and slow-test durations"
+
+[tasks.format]
+depends = ["ruff-format", "ruff-lint", "mdformat"]
+description = "Run all formatting tasks (Ruff format/fix and mdformat)"
+
+[tasks.lint]
+depends = ["ruff-lint-check", "ruff-format-check", "mdformat-check", "mypy"]
+description = "Run all lint checks (Ruff check, format check, mdformat check, and mypy)"

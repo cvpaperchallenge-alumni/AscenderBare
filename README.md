@@ -12,12 +12,11 @@
 
 Ascender Bare is a [GitHub repository template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository) designed for environments where Docker cannot be used (for example, [ABCI](https://abci.ai/en)). It aims to ensure reproducibility of Python-based research experiments as much as possible while maintaining efficiency. It is developed based on [Ascender](https://github.com/cvpaperchallenge/Ascender), an existing Docker-based project template. It incorporates several pre-implemented features to expedite development:
 
-- **Virtual Environment / Toolchain Management**: The management of the Python runtime and core development tools is handled by [mise](https://mise.jdx.dev).
+- **Virtual Environment / Toolchain Management / Task Runner**: The management of the Python runtime and core development tools is handled by [mise](https://mise.jdx.dev).
 - **Virtual Environment / Python Package Management**: Development environment reproducibility ensured by [uv](https://docs.astral.sh/uv).
 - **Coding Style**: Automatic code linting and formatting with [Ruff](https://docs.astral.sh/ruff/).
 - **Static Type Checking**: Early bug detection assisted by [Mypy](https://github.com/python/mypy).
 - **Testing**: Testing simplification achieved through [pytest](https://github.com/pytest-dev/pytest).
-- **Task Runner**: Simple task automation with [Poe the Poet](https://github.com/nat-n/poethepoet).
 - **GitHub Integration**: Integration features including [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions), issue templates, and more.
 
 ## Project Organization
@@ -46,7 +45,7 @@ The project is organized as follows, with each directory and file intended to se
     ├── .dockerignore          <- Ignore rules for Docker builds.
     ├── .envrc                 <- Environmental variable loaded by direnv.
     ├── .gitignore             <- Ignore rules for Git version control.
-    ├── .mise.toml             <- Project tool/runtime configuration for mise.
+    ├── mise.toml             <- Project tool/runtime configuration for mise.
     ├── LICENSE                <- Project license.
     ├── pyproject.toml         <- Python project metadata and dependency configuration.
     ├── README.md              <- Top-level project documentation for developers.
@@ -144,6 +143,28 @@ You are now ready to start developing with Ascender Bare.
 
 > [!NOTE]
 > The important point here is that, except for mise itself, all dependencies—including the Python runtime—are consolidated under `.mise` and `.venv` in the project root. This enables us to efficiently build a highly reproducible environment without using Docker.
+
+### Tasks
+
+Use mise to run the common automation shortcuts defined in `mise.toml`. Refer to [the official mise documentation](https://mise.jdx.dev/tasks/) for more details.
+
+```bash
+# Show all available tasks and their descriptions.
+% mise tasks
+Name    Description                                                              
+format  Run all formatting tasks (Ruff format/fix and mdformat)                  
+lint    Run all lint checks (Ruff check, format check, mdformat check, and mypy) 
+test    Run pytest with coverage reporting and slow-test durations  
+
+# Apply formatting fixes across the codebase and documentation.
+% mise format
+
+# Run the lint suite (Ruff checks, mdformat check, and mypy).
+% mise lint
+
+# Execute the pytest suite with coverage reporting.
+% mise test
+```
 
 ### Rebuild the Environment
 

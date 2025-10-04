@@ -51,14 +51,14 @@ if ! command -v mise >/dev/null 2>&1; then
 fi
 
 # Ensure mise project configuration exists
-if [ ! -f "${PWD}/.mise.toml" ]; then
-	echo "Error: .mise.toml not found in ${PWD}. Aborting job."
+if [ ! -f "${PWD}/mise.toml" ]; then
+	echo "Error: mise.toml not found in ${PWD}. Aborting job."
 	exit 1
 fi
 
 # Trust this directory's configuration
-mise trust "${PWD}/.mise.toml"
-# Install tools defined in .mise.toml
+mise trust "${PWD}/mise.toml"
+# Install tools defined in mise.toml
 mise install -y
 # Show tools currently active for this directory
 echo "=== Installed tools (mise) ==="
