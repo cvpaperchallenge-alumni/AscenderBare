@@ -145,6 +145,28 @@ You are now ready to start developing with Ascender Bare.
 > [!NOTE]
 > The important point here is that, except for mise itself, all dependencies—including the Python runtime—are consolidated under `.mise` and `.venv` in the project root. This enables us to efficiently build a highly reproducible environment without using Docker.
 
+### Tasks
+
+Use mise to run the common automation shortcuts defined in `mise.toml`. Refer to [the official mise documentation](https://mise.jdx.dev/tasks/) for more details.
+
+```bash
+# Show all available tasks and their descriptions.
+% mise tasks
+Name    Description                                                              
+format  Run all formatting tasks (Ruff format/fix and mdformat)                  
+lint    Run all lint checks (Ruff check, format check, mdformat check, and mypy) 
+test    Run pytest with coverage reporting and slow-test durations  
+
+# Apply formatting fixes across the codebase and documentation.
+% mise format
+
+# Run the lint suite (Ruff checks, mdformat check, and mypy).
+% mise lint
+
+# Execute the pytest suite with coverage reporting.
+% mise test
+```
+
 ### Rebuild the Environment
 
 If the environment becomes corrupted, you can delete `.mise` and `.venv`, then reinstall to reconstruct the same environment like following.
