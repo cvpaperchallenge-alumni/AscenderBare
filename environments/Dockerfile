@@ -30,6 +30,7 @@ WORKDIR ${APPLICATION_DIRECTORY}
 
 # Install MISE.
 RUN curl https://mise.run | sh
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 ENV PATH=${APPLICATION_DIRECTORY}/.mise/shims:${USER_DIRECTORY}/.local/bin:${PATH} \
     MISE_DATA_DIR=${APPLICATION_DIRECTORY}/.mise
 
