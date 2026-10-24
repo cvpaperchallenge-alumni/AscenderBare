@@ -1,6 +1,6 @@
 # Security dependency update — 2026-10-24
 
-Update: uv 0.13.4.
+Update: uv 0.13.5 (additional mitigation; see follow-up below).
 
 The eMudhra incident requires updating application-bundled CA stores as well as
 the operating system. Frozen environments must be recreated from the reviewed
@@ -32,3 +32,26 @@ See the pull request for repository-specific test results and limitations.
 ## Local validation
 
 `uv run --frozen pytest tests`: 1 passed. Ruff lint/format and mypy passed.
+
+## Follow-up: intermediate-key distrust (2026-10-24)
+
+The [official uv 0.13.5 release](https://github.com/astral-sh/uv/releases/tag/0.13.5)
+adds rustls-webpki 0.103.16 certificate distrust and refreshed Python builds.
+The earlier 0.13.4 checks above are retained as history; the current pin is 0.13.5.
+No research dependency or experiment definition is changed by this follow-up.
+
+A real network probe with uv 0.13.5 (`uv --no-config --no-cache pip compile`,
+`certifi==2026.10.19`, `--no-deps --no-build`, an explicit public index URL)
+succeeded against PyPI and rejected all four public eMudhra test paths
+(G3/AAA, with/without CT) with `CertDistrusted`. No credentials were sent,
+no packages installed, and TLS verification remained enabled. This tests uv
+networking on macOS; it does not certify all application traffic or deployed images.
+
+Before editing, `mise ls uv --json` resolved active uv 0.13.4 and failed the
+required >=0.13.5 security-floor assertion (RED). After `mise lock uv@0.13.5`,
+the same resolution and `mise exec uv -- uv --version` select 0.13.5 (GREEN).
+The parsed Python lock entry is identical. These are runtime-selection checks,
+not an exploit test.
+
+Follow-up validation with uv 0.13.5: frozen pytest, Ruff check/format and mypy
+all passed again. The earlier test counts remain unchanged.
