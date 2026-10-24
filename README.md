@@ -187,3 +187,7 @@ If the environment becomes corrupted, you can delete `.mise` and `.venv`, then r
 [ABCI (AI Bridging Cloud Infrastructure)](https://abci.ai/en) is the world's first large-scale Open AI Computing Infrastructure, constructed by National Institute of Advanced Industrial Science and Technology (AIST).
 
 ABCI does not support Docker. It is possible to use [Singularity](https://sylabs.io/docs/) instead, but there is a learning cost for Singularity. By using Ascender Bare, you can easily build a reproducible experimental environment. [Here you can find the documentation and job script templates for use with ABCI](./scripts/abci/abci.md).
+
+## Security maintenance
+
+See [the 2026-10-24 dependency update](SECURITY_UPDATE_2026-10-24.md) before rebuilding environments.
